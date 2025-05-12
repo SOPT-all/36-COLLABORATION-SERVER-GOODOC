@@ -1,2 +1,2 @@
 # SOPT-all-SOPT-all-36-COLLABORATION-SERVER-GOODOC
-AT SOPT 36기 합동세미나 모바일 웹 5팀 굿닥
+AT SOPT 36기 합동세미나 모바일 웹 3팀 굿닥
