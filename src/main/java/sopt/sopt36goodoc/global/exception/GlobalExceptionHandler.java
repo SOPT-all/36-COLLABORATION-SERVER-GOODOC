@@ -25,8 +25,8 @@ public class GlobalExceptionHandler {
     /**
      * Custom Exception 전용 ExceptionHandler (@RequestBody)
      */
-    @ExceptionHandler(CommonException.class)
-    public ResponseEntity<ResponseDto<Void>> applicationException(CommonException e) {
+    @ExceptionHandler(CustomException.class)
+    public ResponseEntity<ResponseDto<Void>> applicationException(CustomException e) {
         ErrorCode code = e.getCode();
         logging(code);
 
