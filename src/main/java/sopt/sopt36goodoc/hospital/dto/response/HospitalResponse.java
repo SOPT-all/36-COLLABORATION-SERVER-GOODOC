@@ -3,14 +3,14 @@ package sopt.sopt36goodoc.hospital.dto.response;
 import lombok.Builder;
 import sopt.sopt36goodoc.hospital.domain.Hospital;
 
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Builder
 public record HospitalResponse (
         Long id,
         String name,
         Boolean isOpen,
-        LocalDateTime closeAt,
+        LocalTime closeAt,
         Double lat,
         Double lon,
         String address,
