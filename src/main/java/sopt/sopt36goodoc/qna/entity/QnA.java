@@ -5,7 +5,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import sopt.sopt36goodoc.global.domain.BaseEntity;
-import sopt.sopt36goodoc.hospital.domain.enums.Department;
+import sopt.sopt36goodoc.hospital.domain.Department;
 import sopt.sopt36goodoc.image.domain.Image;
 
 import java.util.ArrayList;

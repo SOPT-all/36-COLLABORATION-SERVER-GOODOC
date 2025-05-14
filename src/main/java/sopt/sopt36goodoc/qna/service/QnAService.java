@@ -6,7 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import sopt.sopt36goodoc.hospital.domain.enums.Department;
+import sopt.sopt36goodoc.hospital.domain.Department;
 import sopt.sopt36goodoc.qna.dto.response.QnAPreviewResponses;
 import sopt.sopt36goodoc.qna.entity.QnA;
 import sopt.sopt36goodoc.qna.repository.QnARepository;

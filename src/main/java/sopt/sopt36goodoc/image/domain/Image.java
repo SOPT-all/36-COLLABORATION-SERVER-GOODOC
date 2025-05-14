@@ -24,4 +24,3 @@ public class Image extends BaseEntity {
     private String url;
 
 }
-
