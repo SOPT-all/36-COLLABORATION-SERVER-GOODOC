@@ -1,9 +1,6 @@
 package sopt.sopt36goodoc.hospital.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -32,17 +29,15 @@ public class Hospital extends BaseEntity {
     @Column(name = "close_at")
     private LocalTime closeAt;
 
-    @Column(name = "lat")
-    private Double lat;
-
-    @Column(name = "lon")
-    private Double lon;
+    @Column(name = "distance")
+    Float distance;
 
     @Column(name = "address")
     private String address;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "department")
-    private String department;
+    private Department department;
 
     @Column(name = "review")
     private Float review;
@@ -56,10 +51,9 @@ public class Hospital extends BaseEntity {
             String name,
             LocalTime openAt,
             LocalTime closeAt,
-            Double lat,
-            Double lon,
+            Float distance,
             String address,
-            String department,
+            Department department,
             Float review,
             String image
     ) {
@@ -67,8 +61,7 @@ public class Hospital extends BaseEntity {
         this.name = name;
         this.openAt = openAt;
         this.closeAt = closeAt;
-        this.lat = lat;
-        this.lon = lon;
+        this.distance = distance;
         this.address = address;
         this.department = department;
         this.review = review;
