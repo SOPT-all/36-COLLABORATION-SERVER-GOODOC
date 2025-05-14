@@ -15,6 +15,7 @@ public record HospitalResponse (
         Float distance,
         String address,
         Department department,
+        Float review,
         String image
 
 ) {
@@ -27,6 +28,7 @@ public record HospitalResponse (
                 .distance(hospital.getDistance())
                 .address(hospital.getAddress())
                 .department(hospital.getDepartment())
+                .review(hospital.getReview())
                 .image(hospital.getImage())
                 .build();
     }
