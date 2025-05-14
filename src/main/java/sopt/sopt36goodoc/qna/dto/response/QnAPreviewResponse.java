@@ -9,7 +9,7 @@ public record QnAPreviewResponse(
         Long id,
         String question,
         String summary,
-        Department department,
+        String department,
         String timeElapsed) {
 
     public static QnAPreviewResponse from(QnA qnA){
@@ -17,13 +17,13 @@ public record QnAPreviewResponse(
                 .id(qnA.getId())
                 .question(qnA.getQuestion())
                 .summary(qnA.getSummary())
-                .department(qnA.getDepartment())
+                .department(qnA.getDepartment().getKoreanName())
                 .timeElapsed(TimeUtil.convertTimeElapsed(qnA.getCreatedAt()))
                 .build();
     }
 
     @Builder
-    public QnAPreviewResponse(Long id, String question, String summary, Department department, String timeElapsed) {
+    public QnAPreviewResponse(Long id, String question, String summary, String department, String timeElapsed) {
         this.id = id;
         this.question = question;
         this.summary = summary;
