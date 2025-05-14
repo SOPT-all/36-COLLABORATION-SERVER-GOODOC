@@ -7,9 +7,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import sopt.sopt36goodoc.hospital.domain.Department;
+import sopt.sopt36goodoc.qna.dto.response.QnADetailResponse;
 import sopt.sopt36goodoc.qna.dto.response.QnAPreviewResponses;
 import sopt.sopt36goodoc.qna.entity.QnA;
+import sopt.sopt36goodoc.qna.exception.QnAException;
 import sopt.sopt36goodoc.qna.repository.QnARepository;
+
+import static sopt.sopt36goodoc.qna.exception.QnAErrorCode.QNA_NOT_FOUND;
 
 
 @Service
@@ -28,5 +32,14 @@ public class QnAService {
 
         Page<QnA> qnAS = qnARepository.findAll(pageable);
         return QnAPreviewResponses.from(qnAS);
+    }
+
+    public QnADetailResponse getQnA(Long qnAId){
+        QnA qnA = findById(qnAId);
+        return QnADetailResponse.from(qnA);
+    }
+
+    public QnA findById(Long id){
+        return qnARepository.findById(id).orElseThrow(()-> new QnAException(QNA_NOT_FOUND));
     }
 }

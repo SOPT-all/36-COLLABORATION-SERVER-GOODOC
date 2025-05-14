@@ -1,13 +1,13 @@
 package sopt.sopt36goodoc.qna.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import sopt.sopt36goodoc.global.dto.ResponseDto;
+import sopt.sopt36goodoc.qna.dto.response.QnADetailResponse;
 import sopt.sopt36goodoc.qna.dto.response.QnAPreviewResponses;
 import sopt.sopt36goodoc.qna.service.QnAService;
+
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,5 +22,11 @@ public class QnAController {
             @RequestParam(name = "size", defaultValue = "15") int size,
             @RequestParam(name = "page", defaultValue = "0") int page){
         return ResponseDto.success("QnA 목록 조회 성공", qnAService.getQnAPreviews(department, page, size));
+    }
+
+    @GetMapping("/{qna-id}")
+    public ResponseDto<QnADetailResponse> getQnAs(
+            @PathVariable("qna-id") Long qnAId){
+        return ResponseDto.success("QnA 상세 조회 성공", qnAService.getQnA(qnAId));
     }
 }
