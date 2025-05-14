@@ -1,17 +1,18 @@
 package sopt.sopt36goodoc.qna.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import sopt.sopt36goodoc.hospital.domain.Department;
+import sopt.sopt36goodoc.qna.dto.response.AllQnAPreviewResponse;
 import sopt.sopt36goodoc.qna.dto.response.QnADetailResponse;
+import sopt.sopt36goodoc.qna.dto.response.QnAPreviewResponse;
 import sopt.sopt36goodoc.qna.dto.response.QnAPreviewResponses;
 import sopt.sopt36goodoc.qna.entity.QnA;
 import sopt.sopt36goodoc.qna.exception.QnAException;
 import sopt.sopt36goodoc.qna.repository.QnARepository;
+
+import java.util.List;
 
 import static sopt.sopt36goodoc.qna.exception.QnAErrorCode.QNA_NOT_FOUND;
 
@@ -41,5 +42,10 @@ public class QnAService {
 
     public QnA findById(Long id){
         return qnARepository.findById(id).orElseThrow(()-> new QnAException(QNA_NOT_FOUND));
+    }
+
+    public AllQnAPreviewResponse getAllQnAPreviews(){
+        List<QnA> qnAS = qnARepository.findAllByOrderByIdDesc(); // PK 생성 전략이 단조 증가이므로 createdAt을 대신하여 클래스터링 인덱스를 사용함.
+        return AllQnAPreviewResponse.from(qnAS);
     }
 }

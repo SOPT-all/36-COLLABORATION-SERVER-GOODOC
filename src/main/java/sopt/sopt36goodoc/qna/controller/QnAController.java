@@ -3,6 +3,7 @@ package sopt.sopt36goodoc.qna.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import sopt.sopt36goodoc.global.dto.ResponseDto;
+import sopt.sopt36goodoc.qna.dto.response.AllQnAPreviewResponse;
 import sopt.sopt36goodoc.qna.dto.response.QnADetailResponse;
 import sopt.sopt36goodoc.qna.dto.response.QnAPreviewResponses;
 import sopt.sopt36goodoc.qna.service.QnAService;
@@ -28,5 +29,10 @@ public class QnAController {
     public ResponseDto<QnADetailResponse> getQnAs(
             @PathVariable("qna-id") Long qnAId){
         return ResponseDto.success("QnA 상세 조회 성공", qnAService.getQnA(qnAId));
+    }
+
+    @GetMapping("/all")
+    public ResponseDto<AllQnAPreviewResponse> getAllQnA(){
+        return ResponseDto.success("QnA 목록 조회 성공(전체)", qnAService.getAllQnAPreviews());
     }
 }
