@@ -23,8 +23,8 @@ public class QnAController {
     @GetMapping
     public ResponseDto<QnAPreviewResponses> getQnAs(
             @RequestParam(name = "department", required = false) String department,
-            @RequestParam(name = "size", defaultValue = "15") int size,
-            @RequestParam(name = "page", defaultValue = "0") int page){
+            @RequestParam(name = "size", defaultValue = "15") @Min(value = 0, message = "size 는 {value}이상이어야 합니다.") int size,
+            @RequestParam(name = "page", defaultValue = "0") @Min(value = 0, message = "page 는 {value}이상이어야 합니다.") int page){
         return ResponseDto.success("QnA 목록 조회 성공", qnAService.getQnAPreviews(department, page, size));
     }
 
