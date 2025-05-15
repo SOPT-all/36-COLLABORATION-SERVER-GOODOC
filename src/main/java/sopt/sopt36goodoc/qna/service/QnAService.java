@@ -3,6 +3,7 @@ package sopt.sopt36goodoc.qna.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
+
 import sopt.sopt36goodoc.hospital.domain.Department;
 import sopt.sopt36goodoc.qna.dto.response.AllQnAPreviewResponse;
 import sopt.sopt36goodoc.qna.dto.response.QnADetailResponse;
@@ -12,7 +13,9 @@ import sopt.sopt36goodoc.qna.exception.QnAException;
 import sopt.sopt36goodoc.qna.repository.QnARepository;
 
 import java.util.List;
+import java.util.function.Supplier;
 
+import static sopt.sopt36goodoc.global.exception.GlobalErrorCode.*;
 import static sopt.sopt36goodoc.qna.exception.QnAErrorCode.QNA_NOT_FOUND;
 
 
@@ -26,12 +29,24 @@ public class QnAService {
 
         if(departmentString != null && !departmentString.isBlank()){
             Department department = Department.findByEnglishName(departmentString);
-            Page<QnA> qnAS = qnARepository.findAllByDepartment(pageable, department);
-            return QnAPreviewResponses.from(qnAS);
+            Page<QnA> qnAs = getDepartmentQnAs(() -> qnARepository.findAllByDepartment(pageable, department), page);
+            return QnAPreviewResponses.from(qnAs);
         }
 
-        Page<QnA> qnAS = qnARepository.findAll(pageable);
-        return QnAPreviewResponses.from(qnAS);
+        Page<QnA> qnAs = getDepartmentQnAs(() -> qnARepository.findAll(pageable), page);
+        return QnAPreviewResponses.from(qnAs);
+    }
+
+    private Page<QnA> getDepartmentQnAs(Supplier<Page<QnA>> supplier, int page){
+        Page<QnA> qnAs = supplier.get();
+        checkValidPageRequest(page, qnAs.getTotalPages());
+        return qnAs;
+    }
+
+    private void checkValidPageRequest(int page, int totalPage){
+        if(page < 0 || page > totalPage){
+            throw new QnAException(NOT_FOUND_PAGE);
+        }
     }
 
     public QnADetailResponse getQnA(Long qnAId){
