@@ -8,14 +8,14 @@ import java.util.stream.Collectors;
 
 public record QnAPreviewResponses(
         Page<QnAPreviewResponse> qnAPreviews) {
-    public static QnAPreviewResponses from(Page<QnA> qnAS){
+    public static QnAPreviewResponses from(Page<QnA> qnAs){
         return new QnAPreviewResponses(
                 new PageImpl<>(
-                        qnAS.stream()
+                        qnAs.stream()
                                 .map(QnAPreviewResponse::from)
                                 .collect(Collectors.toList()),
-                        qnAS.getPageable(),
-                        qnAS.getTotalElements()
+                        qnAs.getPageable(),
+                        qnAs.getTotalElements()
                 )
         );
     }
