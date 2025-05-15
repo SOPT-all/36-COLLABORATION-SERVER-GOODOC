@@ -3,20 +3,25 @@ package sopt.sopt36goodoc.global.exception;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.context.MessageSourceResolvable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
+import org.springframework.validation.method.ParameterValidationResult;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.HandlerMethodValidationException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import sopt.sopt36goodoc.global.dto.ResponseDto;
 
 import java.nio.file.AccessDeniedException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestControllerAdvice
@@ -95,6 +100,19 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ResponseDto<Void>> accessDeniedException() {
         return convert(GlobalErrorCode.INVALID_USER);
+    }
+
+    /**
+     * MethodValidator의 HandlerMethodValidationException 오류 핸들러.
+     */
+    @ExceptionHandler(HandlerMethodValidationException.class)
+    public ResponseEntity<ResponseDto<Void>> HandlerMethodValidationException(HandlerMethodValidationException e){
+        log.error(e.getMessage());
+        String message = e.getAllErrors().stream()
+            .map(MessageSourceResolvable::getDefaultMessage)
+            .collect(Collectors.joining());
+
+        return convert(GlobalErrorCode.VALIDATION_ERROR, message);
     }
 
     /**
