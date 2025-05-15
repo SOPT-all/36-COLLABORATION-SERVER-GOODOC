@@ -24,6 +24,8 @@ public enum GlobalErrorCode implements ErrorCode{
     NOT_SUPPORTED_URI_ERROR(HttpStatus.NOT_FOUND, "REQUEST_003", "지원하지 않는 URL입니다."),
     NOT_SUPPORTED_METHOD_ERROR(HttpStatus.METHOD_NOT_ALLOWED, "REQUEST_004", "지원하지 않는 HTTP Method 요청입니다."),
     NOT_SUPPORTED_MEDIA_TYPE_ERROR(HttpStatus.UNSUPPORTED_MEDIA_TYPE, "REQUEST_005", "잘못된 미디어 타입입니다."),
+    NOT_FOUND_PAGE(HttpStatus.NOT_FOUND, "REQUEST_006", "페이지를 찾을 수 없습니다."),
+
     /**
      * 500 : 응답 실패
      */
