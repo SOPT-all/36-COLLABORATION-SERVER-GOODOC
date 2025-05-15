@@ -6,9 +6,8 @@ import org.springframework.stereotype.Service;
 import sopt.sopt36goodoc.hospital.domain.Department;
 import sopt.sopt36goodoc.qna.dto.response.AllQnAPreviewResponse;
 import sopt.sopt36goodoc.qna.dto.response.QnADetailResponse;
-import sopt.sopt36goodoc.qna.dto.response.QnAPreviewResponse;
 import sopt.sopt36goodoc.qna.dto.response.QnAPreviewResponses;
-import sopt.sopt36goodoc.qna.entity.QnA;
+import sopt.sopt36goodoc.qna.domain.QnA;
 import sopt.sopt36goodoc.qna.exception.QnAException;
 import sopt.sopt36goodoc.qna.repository.QnARepository;
 

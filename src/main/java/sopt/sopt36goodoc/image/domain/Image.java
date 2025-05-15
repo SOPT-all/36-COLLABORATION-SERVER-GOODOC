@@ -6,7 +6,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import sopt.sopt36goodoc.global.domain.BaseEntity;
-import sopt.sopt36goodoc.qna.entity.QnA;
+import sopt.sopt36goodoc.qna.domain.QnA;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

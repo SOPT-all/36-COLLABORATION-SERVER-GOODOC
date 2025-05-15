@@ -1,4 +1,4 @@
-package sopt.sopt36goodoc.qna.entity;
+package sopt.sopt36goodoc.qna.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;

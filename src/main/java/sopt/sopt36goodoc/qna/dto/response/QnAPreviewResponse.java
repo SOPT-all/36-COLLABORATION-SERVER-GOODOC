@@ -2,8 +2,7 @@ package sopt.sopt36goodoc.qna.dto.response;
 
 import lombok.Builder;
 import sopt.sopt36goodoc.global.util.TimeUtil;
-import sopt.sopt36goodoc.hospital.domain.Department;
-import sopt.sopt36goodoc.qna.entity.QnA;
+import sopt.sopt36goodoc.qna.domain.QnA;
 
 public record QnAPreviewResponse(
         Long id,

@@ -1,5 +1,8 @@
 package sopt.sopt36goodoc.qna.controller;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import sopt.sopt36goodoc.global.dto.ResponseDto;

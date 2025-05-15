@@ -1,6 +1,6 @@
 package sopt.sopt36goodoc.qna.dto.response;
 
-import sopt.sopt36goodoc.qna.entity.QnA;
+import sopt.sopt36goodoc.qna.domain.QnA;
 
 import java.util.List;
 
