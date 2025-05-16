@@ -2,16 +2,20 @@ package sopt.sopt36goodoc.qna.controller;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import sopt.sopt36goodoc.global.dto.ResponseDto;
+import sopt.sopt36goodoc.qna.dto.request.QnAQuestionRequest;
 import sopt.sopt36goodoc.qna.dto.response.AllQnAPreviewResponse;
 import sopt.sopt36goodoc.qna.dto.response.QnADetailResponse;
+import sopt.sopt36goodoc.qna.dto.response.QnALlmResponse;
 import sopt.sopt36goodoc.qna.dto.response.QnAPreviewResponses;
 import sopt.sopt36goodoc.qna.service.QnAService;
 
-import java.util.UUID;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,6 +23,14 @@ import java.util.UUID;
 public class QnAController {
 
     private final QnAService qnAService;
+
+    @PostMapping
+    public ResponseDto<QnALlmResponse> postQuestion(
+        @RequestPart("request") @Valid QnAQuestionRequest request,
+        @RequestPart("files") @Size(max = 3) List<MultipartFile> multipartFiles
+        ){
+        return ResponseDto.created("답변 생성 성공", qnAService.postQuestion(request, multipartFiles));
+    }
 
     @GetMapping
     public ResponseDto<QnAPreviewResponses> getQnAs(
