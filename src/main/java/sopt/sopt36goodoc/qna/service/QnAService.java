@@ -13,7 +13,7 @@ import sopt.sopt36goodoc.hospital.domain.Department;
 import sopt.sopt36goodoc.qna.dto.request.QnAQuestionRequest;
 import sopt.sopt36goodoc.qna.dto.response.AllQnAPreviewResponse;
 import sopt.sopt36goodoc.qna.dto.response.QnADetailResponse;
-import sopt.sopt36goodoc.qna.dto.response.QnALlmResponse;
+import sopt.sopt36goodoc.qna.dto.response.QnAAnswerResponse;
 import sopt.sopt36goodoc.qna.dto.response.QnAPreviewResponses;
 import sopt.sopt36goodoc.qna.domain.QnA;
 import sopt.sopt36goodoc.qna.exception.QnAException;
@@ -44,52 +44,53 @@ public class QnAService {
     public final static String INPUT_IMAGE = "image_url";
     public final static String INPUT_TEXT = "text";
 
+    public QnAAnswerResponse postQuestion(QnAQuestionRequest request, List<MultipartFile> files) {
+        String response = openAiClient.sendRequest(List.of(getSystemMessage(), getUserMessage(request, files)));
 
-    public QnALlmResponse postQuestion(QnAQuestionRequest request, List<MultipartFile> files) {
-        List<Content> contents = new ArrayList<>();
-        contents.add(Content.builder()
-                .type(INPUT_TEXT)
-                .text(request.question() + request.detail())
-            .build());
+        QnAAnswerResponse qnAAnswerResponse = convertToAnswerResponse(response);
 
-        files.forEach(file -> {
-                String mimeType = file.getContentType();
-                String encodedString = Base64.getEncoder().encodeToString(convertToByte(file));
-                contents.add(Content.builder()
-                    .type(INPUT_IMAGE)
-                    .imageUrl(RequestTemplate.contentTemplate(mimeType, encodedString))
-                    .build());
-        });
+        QnA qnA = QnA.builder()
+            .question(request.question())
+            .detail(request.detail())
+            .answer(qnAAnswerResponse.answer())
+            .summary(qnAAnswerResponse.summary())
+            .department(Department.findByKoreanName(qnAAnswerResponse.department()))
+            .build();
+        qnARepository.save(qnA);
 
+        return qnAAnswerResponse;
+    }
+
+    private RequestMessage getSystemMessage(){
         Content content = Content.builder()
             .type(INPUT_TEXT)
             .text(RequestTemplate.goodBotSystemTemplate())
             .build();
 
-        RequestMessage messageContent =
-            new RequestMessage(SYSTEM_ROLE, List.of(content));
-
-        RequestMessage userMessageContent =
-            new RequestMessage(USER_ROLE, contents);
-
-        String response = openAiClient.sendRequest(List.of(messageContent, userMessageContent));
-        QnALlmResponse qnALlmResponse = analyzeBodyType(response);
-
-        QnA qnA = QnA.builder()
-            .question(request.question())
-            .detail(request.detail())
-            .answer(qnALlmResponse.answer())
-            .summary(qnALlmResponse.summary())
-            .department(Department.findByKoreanName(qnALlmResponse.department()))
-            .build();
-        qnARepository.save(qnA);
-
-        return qnALlmResponse;
+        return new RequestMessage(SYSTEM_ROLE, List.of(content));
     }
 
-    private QnALlmResponse analyzeBodyType(String content) {
+    private RequestMessage getUserMessage(QnAQuestionRequest request, List<MultipartFile> files){
+        List<Content> contents = new ArrayList<>();
+        contents.add(Content.builder()
+            .type(INPUT_TEXT)
+            .text(request.question() + request.detail())
+            .build());
+
+        files.forEach(file -> {
+            String mimeType = file.getContentType();
+            String encodedString = Base64.getEncoder().encodeToString(convertToByte(file));
+            contents.add(Content.builder()
+                .type(INPUT_IMAGE)
+                .imageUrl(RequestTemplate.contentTemplate(mimeType, encodedString))
+                .build());
+        });
+        return new RequestMessage(USER_ROLE, contents);
+    }
+
+    private QnAAnswerResponse convertToAnswerResponse(String content) {
         try {
-            return objectMapper.readValue(content, QnALlmResponse.class);
+            return objectMapper.readValue(content, QnAAnswerResponse.class);
         } catch (JsonMappingException e) {
             throw new QnAException(LLM_ERROR);
         } catch (JsonProcessingException e) {

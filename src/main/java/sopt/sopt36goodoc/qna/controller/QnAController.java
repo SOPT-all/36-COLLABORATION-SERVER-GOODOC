@@ -11,7 +11,7 @@ import sopt.sopt36goodoc.global.dto.ResponseDto;
 import sopt.sopt36goodoc.qna.dto.request.QnAQuestionRequest;
 import sopt.sopt36goodoc.qna.dto.response.AllQnAPreviewResponse;
 import sopt.sopt36goodoc.qna.dto.response.QnADetailResponse;
-import sopt.sopt36goodoc.qna.dto.response.QnALlmResponse;
+import sopt.sopt36goodoc.qna.dto.response.QnAAnswerResponse;
 import sopt.sopt36goodoc.qna.dto.response.QnAPreviewResponses;
 import sopt.sopt36goodoc.qna.service.QnAService;
 
@@ -25,7 +25,7 @@ public class QnAController {
     private final QnAService qnAService;
 
     @PostMapping
-    public ResponseDto<QnALlmResponse> postQuestion(
+    public ResponseDto<QnAAnswerResponse> postQuestion(
         @RequestPart("request") @Valid QnAQuestionRequest request,
         @RequestPart("files") @Size(max = 3) List<MultipartFile> multipartFiles
         ){
