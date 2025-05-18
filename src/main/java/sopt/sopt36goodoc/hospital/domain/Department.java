@@ -1,5 +1,8 @@
 package sopt.sopt36goodoc.hospital.domain;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -61,5 +64,11 @@ public enum Department {
             }
         }
         return null;
+    }
+
+    public static String findAllKoreanName(){
+        return Arrays.stream(Department.values())
+            .map(Department::getKoreanName)
+            .collect(Collectors.joining(", "));
     }
 }

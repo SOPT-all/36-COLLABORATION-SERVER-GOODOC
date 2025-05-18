@@ -2,6 +2,7 @@ package sopt.sopt36goodoc.qna.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import sopt.sopt36goodoc.global.domain.BaseEntity;
@@ -36,4 +37,14 @@ public class QnA extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Department department;
 
+    @Builder
+    private QnA(List<Image> images, String question, String detail, String answer, String summary,
+        Department department) {
+        this.images = images;
+        this.question = question;
+        this.detail = detail;
+        this.answer = answer;
+        this.summary = summary;
+        this.department = department;
+    }
 }
