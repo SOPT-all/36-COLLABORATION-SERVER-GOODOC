@@ -77,15 +77,17 @@ public class QnAService {
             .text(request.question() + request.detail())
             .build());
 
-        files.forEach(file -> {
-            String mimeType = file.getContentType();
-            String encodedString = Base64.getEncoder().encodeToString(convertToByte(file));
-            contents.add(Content.builder()
-                .type(INPUT_IMAGE)
-                .imageUrl(RequestTemplate.contentTemplate(mimeType, encodedString))
-                .build());
-        });
+        files.forEach(file -> contents.add(convertFileToContent(file)));
         return new RequestMessage(USER_ROLE, contents);
+    }
+
+    private Content convertFileToContent(MultipartFile file){
+        String mimeType = file.getContentType();
+        String encodedString = Base64.getEncoder().encodeToString(convertToByte(file));
+        return Content.builder()
+            .type(INPUT_IMAGE)
+            .imageUrl(RequestTemplate.contentTemplate(mimeType, encodedString))
+            .build();
     }
 
     private QnAAnswerResponse convertToAnswerResponse(String content) {
