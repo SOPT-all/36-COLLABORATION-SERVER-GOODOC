@@ -1,7 +1,6 @@
 package sopt.sopt36goodoc.hospital.dto.response;
 
 import lombok.Builder;
-import sopt.sopt36goodoc.hospital.domain.Department;
 import sopt.sopt36goodoc.hospital.domain.Hospital;
 
 import java.time.LocalTime;
@@ -14,7 +13,7 @@ public record HospitalResponse (
         LocalTime closeAt,
         Float distance,
         String address,
-        Department department,
+        String department,
         Float review,
         String image
 
@@ -27,7 +26,7 @@ public record HospitalResponse (
                 .closeAt(hospital.getCloseAt())
                 .distance(hospital.getDistance())
                 .address(hospital.getAddress())
-                .department(hospital.getDepartment())
+                .department(hospital.getDepartment().getKoreanName())
                 .review(hospital.getReview())
                 .image(hospital.getImage())
                 .build();
