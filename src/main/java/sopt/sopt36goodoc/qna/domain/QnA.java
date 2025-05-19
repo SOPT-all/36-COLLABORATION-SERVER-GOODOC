@@ -24,6 +24,9 @@ public class QnA extends BaseEntity {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, mappedBy = "qnA")
     private List<Image> images = new ArrayList<>();
 
+    @Column(nullable = false)
+    private String title;
+
     @Column(nullable = false, length = 500)
     private String question;
     @Column(length = 500)
@@ -38,9 +41,10 @@ public class QnA extends BaseEntity {
     private Department department;
 
     @Builder
-    private QnA(List<Image> images, String question, String detail, String answer, String summary,
+    private QnA(List<Image> images, String title, String question, String detail, String answer, String summary,
         Department department) {
         this.images = images;
+        this.title = title;
         this.question = question;
         this.detail = detail;
         this.answer = answer;
