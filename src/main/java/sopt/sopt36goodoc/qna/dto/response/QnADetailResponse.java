@@ -6,6 +6,7 @@ import sopt.sopt36goodoc.qna.domain.QnA;
 
 public record QnADetailResponse(
         Long id,
+        String title,
         String question,
         String answer,
         String summary,
@@ -14,6 +15,7 @@ public record QnADetailResponse(
     public static QnADetailResponse from(QnA qnA){
         return QnADetailResponse.builder()
                 .id(qnA.getId())
+                .title(qnA.getTitle())
                 .question(qnA.getQuestion())
                 .answer(qnA.getAnswer())
                 .summary(qnA.getSummary())
@@ -23,12 +25,14 @@ public record QnADetailResponse(
     }
 
     @Builder
-    public QnADetailResponse(Long id, String question, String answer, String summary, String department, String timeElapsed) {
+    public QnADetailResponse(Long id, String title, String question, String answer, String summary, String department, String timeElapsed) {
         this.id = id;
+        this.title = title;
         this.question = question;
         this.answer = answer;
         this.summary = summary;
         this.department = department;
         this.timeElapsed = timeElapsed;
     }
+
 }
