@@ -27,6 +27,7 @@ public class RequestTemplate {
    			## 응답 형식
    			{
 				"answer": "<상태에 대한 설명, 원인, 증상, 치료 방법, 주의사항 등을 포함한 상세 응답>",
+				"title": "<사용자 질문을 보편적인 한줄 문장으로 정리>"
 				"summary": "<응답 본문 요약>",
 				"department": "<진료과>"
 			}

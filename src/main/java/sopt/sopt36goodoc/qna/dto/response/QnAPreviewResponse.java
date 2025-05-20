@@ -6,7 +6,7 @@ import sopt.sopt36goodoc.qna.domain.QnA;
 
 public record QnAPreviewResponse(
         Long id,
-        String question,
+        String title,
         String summary,
         String department,
         String timeElapsed) {
@@ -14,7 +14,7 @@ public record QnAPreviewResponse(
     public static QnAPreviewResponse from(QnA qnA){
         return new QnAPreviewResponseBuilder()
                 .id(qnA.getId())
-                .question(qnA.getQuestion())
+                .title(qnA.getTitle())
                 .summary(qnA.getSummary())
                 .department(qnA.getDepartment().getKoreanName())
                 .timeElapsed(TimeUtil.convertTimeElapsed(qnA.getCreatedAt()))
@@ -22,9 +22,9 @@ public record QnAPreviewResponse(
     }
 
     @Builder
-    public QnAPreviewResponse(Long id, String question, String summary, String department, String timeElapsed) {
+    public QnAPreviewResponse(Long id, String title, String summary, String department, String timeElapsed) {
         this.id = id;
-        this.question = question;
+        this.title = title;
         this.summary = summary;
         this.department = department;
         this.timeElapsed = timeElapsed;

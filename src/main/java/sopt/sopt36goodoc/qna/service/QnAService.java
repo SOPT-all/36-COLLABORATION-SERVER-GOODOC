@@ -14,6 +14,7 @@ import sopt.sopt36goodoc.qna.dto.request.QnAQuestionRequest;
 import sopt.sopt36goodoc.qna.dto.response.AllQnAPreviewResponse;
 import sopt.sopt36goodoc.qna.dto.response.QnADetailResponse;
 import sopt.sopt36goodoc.qna.dto.response.QnAAnswerResponse;
+import sopt.sopt36goodoc.qna.dto.response.QnALlmAnswer;
 import sopt.sopt36goodoc.qna.dto.response.QnAPreviewResponses;
 import sopt.sopt36goodoc.qna.domain.QnA;
 import sopt.sopt36goodoc.qna.exception.QnAException;
@@ -47,18 +48,19 @@ public class QnAService {
     public QnAAnswerResponse postQuestion(QnAQuestionRequest request, List<MultipartFile> files) {
         String response = openAiClient.sendRequest(List.of(getSystemMessage(), getUserMessage(request, files)));
 
-        QnAAnswerResponse qnAAnswerResponse = convertToAnswerResponse(response);
+        QnALlmAnswer qnALlmAnswer = convertToALlmAnswer(response);
 
         QnA qnA = QnA.builder()
             .question(request.question())
             .detail(request.detail())
-            .answer(qnAAnswerResponse.answer())
-            .summary(qnAAnswerResponse.summary())
-            .department(Department.findByKoreanName(qnAAnswerResponse.department()))
+            .title(qnALlmAnswer.title())
+            .answer(qnALlmAnswer.answer())
+            .summary(qnALlmAnswer.summary())
+            .department(Department.findByKoreanName(qnALlmAnswer.department()))
             .build();
         qnARepository.save(qnA);
 
-        return qnAAnswerResponse;
+        return QnAAnswerResponse.from(qnALlmAnswer);
     }
 
     private RequestMessage getSystemMessage(){
@@ -90,9 +92,9 @@ public class QnAService {
             .build();
     }
 
-    private QnAAnswerResponse convertToAnswerResponse(String content) {
+    private QnALlmAnswer convertToALlmAnswer(String content) {
         try {
-            return objectMapper.readValue(content, QnAAnswerResponse.class);
+            return objectMapper.readValue(content, QnALlmAnswer.class);
         } catch (JsonMappingException e) {
             throw new QnAException(LLM_ERROR);
         } catch (JsonProcessingException e) {
