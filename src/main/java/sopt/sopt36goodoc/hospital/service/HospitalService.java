@@ -25,6 +25,12 @@ public class HospitalService {
 
     private Boolean isOpen(Hospital hospital) {
         LocalTime now = LocalTime.now();
+        LocalTime openAt = hospital.getOpenAt();
+        LocalTime closeAt = hospital.getCloseAt();
+
+        if (openAt == null || closeAt == null) {
+            return null;
+        }
         return now.isAfter(hospital.getOpenAt()) && now.isBefore(hospital.getCloseAt());
     }
 }
